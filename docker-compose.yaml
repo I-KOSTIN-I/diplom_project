@@ -1,12 +1,11 @@
-version: '3.9'
+version: '3.10'
 
 services:
 
   db:
     image: postgres:14.4-alpine
-    restart: always
     environment:
-      - /.env
+      - source/.env
     volumes:
       - pg_data_todolist:/var/lib/postgresql/data
     healthcheck:
@@ -14,6 +13,7 @@ services:
       interval: 5s
       timeout: 3s
       retries: 3
+    restart: always
     ports:
       - "5432:5432"
     networks:
