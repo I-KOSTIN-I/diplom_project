@@ -1,11 +1,11 @@
-version: '3.10'
+version: '3.9'
 
 services:
 
   db:
     image: postgres:14.4-alpine
-    environment:
-      - source/.env
+    env_file:
+      - .env
     volumes:
       - pg_data_todolist:/var/lib/postgresql/data
     healthcheck:
