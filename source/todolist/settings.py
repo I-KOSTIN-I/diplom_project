@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+
+import dj_database_url
 import environ
 
 
@@ -138,3 +140,5 @@ AUTH_USER_MODEL = 'core.User'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DATABASES['default'] = dj_database_url.config(default='postgres://vados:parolchik12345@localhost/todolist')
