@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
-#import dj_database_url
 import environ
 
 
@@ -22,6 +21,7 @@ env = environ.Env(
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 ENV_FILE = BASE_DIR.parent.joinpath('.env')
 # Take environment variables from .env file
 environ.Env.read_env(ENV_FILE)
@@ -93,7 +93,7 @@ DATABASES = {
         'USER': env.str('POSTGRES_USER'),
         'PASSWORD': env.str('POSTGRES_PASSWORD'),
         'HOST': env.str('POSTGRES_HOST', default='127.0.0.1'),
-        'PORT': env.int('POSTGRES_PORT'),
+        'PORT': env.int('POSTGRES_PORT', default='5432'),
     }
 }
 
@@ -141,4 +141,3 @@ AUTH_USER_MODEL = 'core.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#DATABASES['default'] = dj_database_url.config(default='postgres://vados:parolchik12345@localhost/todolist')
