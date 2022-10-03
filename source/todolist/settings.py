@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
-import dj_database_url
+#import dj_database_url
 import environ
 
 
@@ -22,19 +22,19 @@ env = environ.Env(
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+ENV_FILE = BASE_DIR.parent.joinpath('.env')
 # Take environment variables from .env file
-environ.Env.read_env(BASE_DIR.joinpath('.env'))
+environ.Env.read_env(ENV_FILE)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -88,12 +88,12 @@ WSGI_APPLICATION = 'source.todolist.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('POSTGRES_ENGINE'),
-        'NAME': os.environ.get('POSTGRES_DB'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': os.environ.get('POSTGRES_HOST', default='127.0.0.1'),
-        'PORT': os.environ.get('POSTGRES_PORT'),
+        'ENGINE': env.str('POSTGRES_ENGINE'),
+        'NAME': env.str('POSTGRES_DB'),
+        'USER': env.str('POSTGRES_USER'),
+        'PASSWORD': env.str('POSTGRES_PASSWORD'),
+        'HOST': env.str('POSTGRES_HOST', default='127.0.0.1'),
+        'PORT': env.int('POSTGRES_PORT'),
     }
 }
 
@@ -141,4 +141,4 @@ AUTH_USER_MODEL = 'core.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DATABASES['default'] = dj_database_url.config(default='postgres://vados:parolchik12345@localhost/todolist')
+#DATABASES['default'] = dj_database_url.config(default='postgres://vados:parolchik12345@localhost/todolist')
