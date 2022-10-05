@@ -2,8 +2,8 @@ version: '3.9'
 
 services:
 
-  db:
-    image: postgres:14.4-alpine
+  postgres:
+    image: postgres:14.5-alpine
     env_file:
       - .env
     volumes:
@@ -19,10 +19,48 @@ services:
     networks:
       - backend_nw
 
+  migrations:
+    build:
+      context: .
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate"
+    networks:
+      - backend_nw
 
+  api:
+    build:
+      context: .
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - '8000:8000'
+    networks:
+      - backend_nw
+      - frontend_nw
+    volumes:
+      - ./source/:/opt/todolist
 volumes:
   pg_data_todolist:
 
 networks:
   backend_nw:
+    driver: bridge
+  frontend_nw:
     driver: bridge
