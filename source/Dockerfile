@@ -17,6 +17,8 @@ RUN pip install --upgrade pip \
 
 COPY source/ .
 
+ENTRYPOINT ["bash", "entrypoint.sh"]
+
 
 
 
