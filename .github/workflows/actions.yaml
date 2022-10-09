@@ -29,8 +29,7 @@ jobs:
         with:
           context: .
           file: ./source/Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/diplom:${{ steps.tag.output.tag }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/diplom:${{steps.tag.outputs.tag}}
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/diplom:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/diplom:buildcache,mode=max
