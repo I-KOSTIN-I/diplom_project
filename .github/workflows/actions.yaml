@@ -12,6 +12,12 @@ jobs:
         name: Checkout
         uses: actions/checkout@v3
       -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ secrets.DOCKER_HUB_USERNAME }}/diplom_project
+      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       -
@@ -37,4 +43,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           file: ./source/Dockerfile
           push: true
-          tags: user/app:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
