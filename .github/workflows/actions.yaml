@@ -29,5 +29,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/diplom:buildcache
-        cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/diplom:buildcache,mode=max
+          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/diplom:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/diplom:buildcache,mode=max
