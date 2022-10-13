@@ -67,7 +67,7 @@ jobs:
           print "\nTAG_NAME=${{ steps.meta.outputs.tags }}" >> deploy/.env
       -
         name: Copy on server
-        uses: appleboy/scp-ation@master
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
