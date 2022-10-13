@@ -22,8 +22,8 @@ env = environ.Env(
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ENV_FILE = BASE_DIR.parent.joinpath('.env')
-# Take environment variables from .env file
+ENV_FILE = BASE_DIR.parent.joinpath('env')
+# Take environment variables from env file
 environ.Env.read_env(ENV_FILE)
 
 

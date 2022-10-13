@@ -45,3 +45,33 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+        with:
+          strip_v: true
+      -
+        name: Render template
+        run: |
+          echo "${{ secrets.VAULT_PASSWORD }}" ansible-vault decrypt deploy/*
+          mv deploy/env deploy/.env
+          print "\nTAG_NAME=${{ steps.meta.outputs.tags }}" >> deploy/.env
+      -
+        name: Copy on server
+        uses: appleboy/scp-ation@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "deploy/*"
+          target: diplom
+          strip_components: 1
