@@ -62,9 +62,11 @@ jobs:
       -
         name: Render template
         run: |
-          echo "${{ secrets.VAULT_PASSWORD }}" ansible-vault decrypt deploy/*
+          echo "${{ secrets.VAULT_PASSWORD }}" ansible-vault decrypt deploy/env
+          echo "${{ secrets.VAULT_PASSWORD }}" ansible-vault decrypt deploy/docker-compose.yaml
+          echo "${{ secrets.VAULT_PASSWORD }}" ansible-vault decrypt deploy/nginx/default.conf
           mv deploy/env deploy/.env
-          print "\nTAG_NAME=${{ steps.meta.outputs.tags }}" >> deploy/.env
+          printf "\nTAG_NAME=${{ steps.meta.outputs.tags }}" >> deploy/.env
       -
         name: Copy on server
         uses: appleboy/scp-action@master
