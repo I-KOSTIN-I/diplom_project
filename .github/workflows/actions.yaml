@@ -50,7 +50,7 @@ jobs:
     needs: docker
     runs-on: ubuntu-latest
     env:
-      VAULT_PASSWORD: ${{ secrets.VAULT_PASSWORD }}
+      ANSIBLE_VAULT_PASSWORD_FILE=$PWD/.vault_pass.txt
     steps:
       -
         name: Checkout
@@ -64,9 +64,10 @@ jobs:
       -
         name: Render template
         run: |
-          echo "$VAULT_PASSWORD" ansible-vault decrypt deploy/env
-          echo "$VAULT_PASSWORD" ansible-vault decrypt deploy/docker-compose.yaml
-          echo "$VAULT_PASSWORD" ansible-vault decrypt deploy/nginx/default.conf
+          echo "$VAULT_PASSWORD" > $PWD/.vault_pass.txt
+          ansible-vault decrypt deploy/env
+          ansible-vault decrypt deploy/docker-compose.yaml
+          ansible-vault decrypt deploy/nginx/default.conf
           mv deploy/env deploy/.env
           printf "\nTAG_NAME=${{ steps.tag.outputs.tag }}" >> deploy/.env
       -
