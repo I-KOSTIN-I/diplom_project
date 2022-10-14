@@ -1,6 +1,6 @@
 FROM python:3.10-slim
 
-WORKDIR /opt/todolist
+WORKDIR /opt/
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
@@ -18,6 +18,8 @@ RUN pip install --upgrade pip \
 COPY source/ .
 
 ENTRYPOINT ["bash", "entrypoint.sh"]
+
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
 
 
 
