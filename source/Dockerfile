@@ -19,8 +19,6 @@ COPY ./source/ .
 
 ENTRYPOINT ["bash", "entrypoint.sh"]
 
-CMD ["python3", "manage.py", "runserver"]
-
 
 
 
