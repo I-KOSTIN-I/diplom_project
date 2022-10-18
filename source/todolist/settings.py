@@ -22,7 +22,7 @@ env = environ.Env(
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ENV_FILE = BASE_DIR.parent.joinpath('env')
+ENV_FILE = BASE_DIR.parent.joinpath('.env')
 # Take environment variables from env file
 environ.Env.read_env(ENV_FILE)
 
@@ -133,6 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR.parent.joinpath('deploy', 'nginx', 'static')
 
 AUTH_USER_MODEL = 'core.User'
 
