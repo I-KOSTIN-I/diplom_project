@@ -79,7 +79,7 @@ jobs:
             --env-file $(pwd)/deploy/.env \
             --entrypoint  '' \
             -v $(pwd)/deploy/nginx/static/:/opt/static/:rw \
-            ${{ secrets.DOCKER_HUB_USERNAME }}/todolist:latest \
+            ${{ secrets.DOCKER_HUB_USERNAME }}/diplom_project:latest \
             python manage.py collectstatic -c --no-input
       -
         name: Copy on server
