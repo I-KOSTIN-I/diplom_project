@@ -78,7 +78,7 @@ jobs:
             --rm \
             --env-file $(pwd)/deploy/.env \
             --entrypoint  '' \
-            -v $(pwd)/deploy/static/:/opt/static/:rw \
+            -v $(pwd)/deploy/nginx/static/:/opt/static/:rw \
             ${{ secrets.DOCKER_HUB_USERNAME }}/todolist:latest \
             python manage.py collectstatic -c --no-input
       -
