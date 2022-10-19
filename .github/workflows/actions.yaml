@@ -71,6 +71,17 @@ jobs:
           mv deploy/env deploy/.env
           printf "\nTAG_NAME=${{steps.tag.outputs.tag}}" >> deploy/.env
       -
+        name: Collect Static
+        run: |
+          sudo docker run \
+            --user 0 \
+            --rm \
+            --env-file $(pwd)/deploy/.env \
+            --entrypoint  '' \
+            -v $(pwd)/deploy/static/:/opt/static/:rw \
+            ${{ secrets.DOCKER_HUB_USERNAME }}/todolist:latest \
+            python manage.py collectstatic -c --no-input
+      -
         name: Copy on server
         uses: appleboy/scp-action@master
         with:
