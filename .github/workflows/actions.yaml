@@ -67,7 +67,6 @@ jobs:
         run: |
           echo "$VAULT_PASSWORD" > /tmp/.vault_pass.txt
           ansible-vault decrypt deploy/env
-          ansible-vault decrypt deploy/docker-compose.yaml
           mv deploy/env deploy/.env
           printf "\nTAG_NAME=${{steps.tag.outputs.tag}}" >> deploy/.env
       -
