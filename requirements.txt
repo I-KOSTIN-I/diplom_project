@@ -38,3 +38,4 @@ social-auth-core==4.3.0
 sqlparse==0.4.3
 texttable==1.6.4
 urllib3==1.26.12
+django-filter~=22.1
