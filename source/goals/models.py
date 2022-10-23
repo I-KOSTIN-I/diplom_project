@@ -68,3 +68,19 @@ class Goal(BaseModel):
             self.created = timezone.now()  # проставляем дату создания
         self.updated = timezone.now()  # проставляем дату обновления
         return super().save(*args, **kwargs)
+
+
+class GoalComment(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Автор', related_name='comments')
+    goal = models.ForeignKey(Goal, verbose_name='Цель', on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField(verbose_name='Текст')
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+    def save(self, *args, **kwargs):
+        if not self.id:  # Когда объект только создается, у него еще нет id
+            self.created = timezone.now()  # проставляем дату создания
+        self.updated = timezone.now()  # проставляем дату обновления
+        return super().save(*args, **kwargs)
