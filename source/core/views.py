@@ -16,8 +16,9 @@ class LoginView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        login(request=self.request, user=serializer.save())
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        user = serializer.save()
+        login(request=self.request, user=user)
+        return Response(ProfileSerializer(user).data, status=status.HTTP_200_OK)
 
 
 class ProfileView(generics.RetrieveUpdateDestroyAPIView):
