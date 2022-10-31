@@ -64,6 +64,7 @@ MIDDLEWARE = [
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'todolist.middleware.CustomMiddle',
 ]
 
 ROOT_URLCONF = 'todolist.urls'
