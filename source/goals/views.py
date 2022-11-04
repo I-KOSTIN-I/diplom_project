@@ -18,6 +18,7 @@ class GoalCategoryCreateView(CreateAPIView):
     serializer_class = GoalCategoryCreateSerializer
 
 
+
 class GoalCategoryListView(ListAPIView):
     model = GoalCategory
     permission_classes = [permissions.IsAuthenticated]
