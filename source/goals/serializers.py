@@ -10,11 +10,11 @@ from goals.models import GoalCategory, Goal, GoalComment, Board, BoardParticipan
 
 class GoalCategoryCreateSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = GoalCategory
-        fields = '__all__'
-        #read_only_fields = ("id", "created", "updated", "user")
-        #exclude = []
+        read_only_fields = ("id", "created", "updated", "user", 'is_deleted')
+        fields = "__all__"
 
     def validate_board(self, value: Board):
         if value.is_deleted:
@@ -32,7 +32,7 @@ class GoalCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GoalCategory
-        read_only_fields = ('id', 'created', 'updated', 'user')
+        read_only_fields = ('id', 'created', 'updated', 'user', 'board')
         fields = '__all__'
 
 
@@ -44,13 +44,13 @@ class GoalCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        read_only_fields = ('id', 'created', 'updated', 'user')
+        read_only_fields = ('id', 'created', 'updated', 'user', 'board')
         fields = '__all__'
 
     def validate_category(self, value: GoalCategory):
         if self.context['request'].user != value.user:
             raise exceptions.PermissionDenied
-        if self.instance.category.board_id != value.board_id:
+        if False and self.instance and self.instance.category.board_id != value.board_id:
             raise serializers.ValidationError('Перенос между проектами невозможен')
 
         return value

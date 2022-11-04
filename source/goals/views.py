@@ -1,5 +1,8 @@
 from django.db import transaction
 from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django_filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
@@ -14,11 +17,34 @@ from goals.serializers import GoalCategoryCreateSerializer, GoalCategorySerializ
     GoalCreateSerializer, GoalCommentCreateSerializer, GoalCommentSerializer, BoardSerializer, BoardCreateSerializer
 
 
-class GoalCategoryCreateView(CreateAPIView):
-    model = GoalCategory
-    #permission_classes = [GoalCategoryPermissions]
+class TestCreateView(CreateAPIView):
+    queryset = Goal.objects.all()
     serializer_class = GoalCategoryCreateSerializer
 
+
+class GoalCategoryCreateView(CreateAPIView):
+    model = GoalCategory
+    permission_classes = [GoalCategoryPermissions]
+    serializer_class = GoalCategoryCreateSerializer
+
+
+@method_decorator(csrf_exempt,name='dispatch')
+class GoalCategoryCreateView2(View):
+    def post(self, request):
+        import json
+        data = json.loads(request.body)
+        user = request.user
+        gc = GoalCategory(title=data['title'], board_id=data['board'], user_id=user.id)
+        gc.user_id = user.id
+        gc.save(force_insert=True)
+        from django.http import JsonResponse
+        return JsonResponse({
+            "id": gc.id,
+            "title": gc.title,
+            "is_deleted": gc.is_deleted,
+            "board": gc.board_id,
+            "board_id": gc.board_id
+        })
 
 class GoalCategoryListView(ListAPIView):
     model = GoalCategory
