@@ -173,3 +173,5 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
 }
+
+BOT_TOKEN = env.str('BOT_TOKEN')

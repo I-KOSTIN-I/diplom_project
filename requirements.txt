@@ -39,3 +39,4 @@ sqlparse==0.4.3
 texttable==1.6.4
 urllib3==1.26.12
 django-filter~=22.1
+pydantic~=1.10.2
