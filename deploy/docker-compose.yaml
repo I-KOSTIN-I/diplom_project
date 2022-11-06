@@ -37,6 +37,20 @@ services:
       - backend_nw
       - frontend_nw
 
+  bot:
+    image: kostinvadim/diplom_project:latest
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: db
+    depends_on:
+      db:
+        condition: service_healthy
+    command: python3 manage.py runbot
+    networks:
+      - backend_nw
+
   frontend:
     image: sermalenk/skypro-front:lesson-38
     restart: always
