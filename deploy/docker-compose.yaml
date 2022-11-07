@@ -41,11 +41,11 @@ services:
     image: kostinvadim/diplom_project:latest
     restart: always
     env_file:
-      - .env
+      - ./.env
     environment:
-      POSTGRES_HOST: db
+      POSTGRES_HOST: postgres
     depends_on:
-      db:
+      postgres:
         condition: service_healthy
     command: python3 manage.py runbot
     networks:
