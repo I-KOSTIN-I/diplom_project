@@ -59,21 +59,18 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class UpdatePasswordSerializer(serializers.Serializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     old_password = PasswordField(required=True)
     new_password = PasswordField(required=True)
 
-    def create(self, validated_data):
-        raise NotImplementedError
+    def validate(self, attrs: dict) -> dict:
+        if not self.instance.check_password(attrs['old_password']):
+            raise ValidationError({'old_password': 'field is incorrect'})
+        return attrs
 
-    def update(self, instance, validated_data):
+    def update(self, instance: User, validated_data: dict) -> User:
         instance.password = make_password(validated_data['new_password'])
         instance.save(update_fields=('password',))
         return instance
 
-    def validate(self, attrs):
-        if not (user := attrs['user']):
-            raise NotAuthenticated
-        if not user.check_password(attrs['old_password']):
-            raise ValidationError({'old_password': 'Неверный пароль'})
-        return attrs
+    def create(self, validated_data):
+        raise NotImplementedError

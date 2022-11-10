@@ -28,7 +28,7 @@ class GoalCategoryCreateView(CreateAPIView):
     serializer_class = GoalCategoryCreateSerializer
 
 
-@method_decorator(csrf_exempt,name='dispatch')
+@method_decorator(csrf_exempt, name='dispatch')
 class GoalCategoryCreateView2(View):
     def post(self, request):
         import json
@@ -45,6 +45,7 @@ class GoalCategoryCreateView2(View):
             "board": gc.board_id,
             "board_id": gc.board_id
         })
+
 
 class GoalCategoryListView(ListAPIView):
     model = GoalCategory
@@ -180,7 +181,7 @@ class BoardView(RetrieveUpdateDestroyAPIView):
 
 class BoardCreateView(CreateAPIView):
     model = Board
-    permission_classes = [BoardPermissions]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = BoardCreateSerializer
 
 
