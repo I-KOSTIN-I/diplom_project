@@ -38,7 +38,13 @@ __Для тех, кто знает больше, чем print("Helloy word!"):__
 
 *Django 4.1.2
 
-__RUN CMD:__
+*postgres:14.5-alpine
+
+__RUN Docker container:__
+
+Переименовать you_env в .env , заменить данные на свои.
+
+Далее командами в терминале:
 
 docker compose build
 
